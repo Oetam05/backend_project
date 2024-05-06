@@ -2,8 +2,6 @@ const bookActions = require('./book.actions');
 
 exports.createBook = async (req, res) => {
   try {
-    console.log("createBook")
-    console.log(req.body);
     const newBook = await bookActions.createBookMongo(req.body);
     res.status(201).send(newBook);
   } catch (error) {
@@ -13,7 +11,14 @@ exports.createBook = async (req, res) => {
 
 exports.getBooks = async (req, res) => {
   try {
-    const books = await bookActions.getBooksMongo();
+    const filters = {};
+    if (req.query.genre) filters.genre = req.query.genre;
+    if (req.query.author) filters.author = req.query.author;
+    if (req.query.publisher) filters.publisher = req.query.publisher;
+    if (req.query.editorial) filters.editorial = req.query.editorial;
+    if (req.query.title) filters.title = req.query.title;
+    if (req.query.publicationDate) filters.publicationDate = req.query.publicationDate;
+    const books = await bookActions.getBooksMongo(filters);
     res.status(200).send(books);
   } catch (error) {
     res.status(500).send(error);

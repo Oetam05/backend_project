@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('./book.controller');
+const authenticate = require('../middleware/authenticate');
 
-router.post('/', bookController.createBook);
+router.post('/', authenticate, bookController.createBook);
 router.get('/', bookController.getBooks);
-// Agrega rutas para actualizar y eliminar
-router.put('/:id', bookController.updateBook);
-router.delete('/:id', bookController.deleteBook);
+router.put('/:id',authenticate, bookController.updateBook);
+router.delete('/:id', authenticate, bookController.deleteBook);
 module.exports = router;

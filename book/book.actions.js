@@ -9,9 +9,10 @@ const createBookMongo = async (bookData) => {
   }
 };
 
-const getBooksMongo = async () => {
+const getBooksMongo = async (filters) => {
   try {
-    const books = await Book.find();
+    const query = { isActive: true, ...filters };
+    const books = await Book.find(query);
     return books;
   } catch (error) {
     throw error;
@@ -29,7 +30,7 @@ const updateBookMongo = async (id, bookData) => {
 
 const deleteBookMongo = async (id) => {
   try {
-    const deletedBook = await Book.findByIdAndDelete(id);
+    const deletedBook = await Book.findByIdAndUpdate(id, { isActive: false });
     return deletedBook;
   } catch (error) {
     throw error;

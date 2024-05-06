@@ -5,7 +5,9 @@ const bookSchema = new mongoose.Schema({
   author: { type: String, required: true },
   publicationDate: Date,
   genre: String,
-  publisher: String
+  publisher: String,
+  isActive: { type: Boolean, default: true },
+  editorial:String
 },{versionKey: false});
 
 module.exports = mongoose.model('Book', bookSchema);

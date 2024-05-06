@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+require('dotenv').config();
+
 app.get('/', (req, res) => {
   res.send('Hola Mundo');
 });
@@ -14,7 +16,10 @@ app.get('/', (req, res) => {
 const bookRoutes = require('./book/book.route');
 app.use('/books', bookRoutes);
 
-require('dotenv').config();
+const userRoutes = require('./user/user.route');
+app.use('/users', userRoutes);
+
+
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('Conectado a MongoDB'))
