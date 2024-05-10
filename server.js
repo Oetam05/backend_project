@@ -10,7 +10,7 @@ app.use(express.json());
 require('dotenv').config();
 
 app.get('/', (req, res) => {
-  res.send('Hola Mundo');
+  res.send('Hola Mundo!');
 });
 
 const bookRoutes = require('./book/book.route');
@@ -18,6 +18,9 @@ app.use('/books', bookRoutes);
 
 const userRoutes = require('./user/user.route');
 app.use('/users', userRoutes);
+
+const orderRoutes = require('./order/order.route');
+app.use('/orders', orderRoutes);
 
 
 // Conexión a MongoDB

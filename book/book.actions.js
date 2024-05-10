@@ -1,4 +1,5 @@
-const Book = require('./book.model');
+const Book = require('../book/book.model');
+const mongoose = require('mongoose');
 
 const createBookMongo = async (bookData) => {
   try {
@@ -18,6 +19,20 @@ const getBooksMongo = async (filters) => {
     throw error;
   }
 };
+
+const getBookByIdMongo = async (id) => {
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return { error: true, message: 'Invalid ID format', statusCode: 400 };
+  }
+
+  const book = await Book.findById(id);
+  if (!book) {
+    return { error: true, message: 'Book not found', statusCode: 404 };
+  }
+  return { error: false, data: book };
+};
+
 
 const updateBookMongo = async (id, bookData) => {
   try {
@@ -41,5 +56,6 @@ module.exports = {
   createBookMongo,
   getBooksMongo,
   updateBookMongo,
-  deleteBookMongo
+  deleteBookMongo,
+  getBookByIdMongo
 };

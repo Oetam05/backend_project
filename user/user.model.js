@@ -4,8 +4,9 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-});
+  password: { type: String, required: true },
+  isActive: { type: Boolean, default: true }
+},{versionKey: false});
 
 // Middleware para encriptar la contraseña antes de guardar el usuario
 userSchema.pre('save', async function(next) {

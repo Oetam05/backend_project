@@ -2,7 +2,11 @@ const bookActions = require('./book.actions');
 
 exports.createBook = async (req, res) => {
   try {
-    const newBook = await bookActions.createBookMongo(req.body);
+    const bookData = {
+      ...req.body,
+      publisher: req.userData.id  // Asignar automáticamente el ID del usuario como publisher
+    };
+    const newBook = await bookActions.createBookMongo(bookData);
     res.status(201).send(newBook);
   } catch (error) {
     res.status(400).send(error);
@@ -24,6 +28,17 @@ exports.getBooks = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+exports.getBookById = async (req, res) => {
+  const result = await bookActions.getBookByIdMongo(req.params.id);
+
+  if (result.error) {
+    return res.status(result.statusCode).json({ message: result.message });
+  }
+
+  res.status(200).json(result.data);
+};
+
 
 exports.updateBook = async (req, res) => {
   try {
