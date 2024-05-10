@@ -4,9 +4,9 @@ const Order = require('./order.model');
 
 const createOrderMongo = async (userId, bookIds) => {
   // Verificar que todos los libros existen y pertenecen al mismo vendedor
-  const books = await Book.find({ _id: { $in: bookIds } });
+  const books = await Book.find({ _id: { $in: bookIds }, isActive: true});
   if (books.length !== bookIds.length) {
-    throw new Error('One or more books could not be found.');
+    throw new Error('One or more books could not be found or are no longer active.');
   }
 
   // Asegurarte de que todos los libros pertenecen al mismo vendedor
@@ -56,7 +56,7 @@ const getOrderByIdMongo = async (orderId, userId) => {
   };
   const order = await Order.findOne(query);
   if (!order) {
-    throw new Error('Order not found');
+    throw new Error('Order not found or unauthorized');
   }
   return order;
 };
